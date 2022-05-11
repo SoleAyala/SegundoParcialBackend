@@ -54,11 +54,25 @@ exports.findOne = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error el cliente con id=" + id
+                message: "Error al encontrar el cliente con id=" + id
             });
         });
 };
 
+
+//obtener cliente a partir de un numero de cedula
+exports.findbycedula = (req, res) => {
+    const cedula = req.params.cedula;
+    Cliente.findByPk(cedula)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error al encontrar el cliente con cedula=" + cedula
+            });
+        });
+};
 //obtener todos los clientes
 exports.findAll = (req, res) => {
     const nombre = req.query.nombre;
@@ -74,6 +88,7 @@ exports.findAll = (req, res) => {
             });
         });
 };
+
 
 
 
