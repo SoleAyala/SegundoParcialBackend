@@ -73,6 +73,8 @@ exports.findbycedula = (req, res) => {
             });
         });
 };
+
+
 //obtener todos los clientes
 exports.findAll = (req, res) => {
     const nombre = req.query.nombre;
