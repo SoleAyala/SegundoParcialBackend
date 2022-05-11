@@ -67,3 +67,46 @@ exports.findAll = (req, res) => {
             });
         });
 };
+
+//actualizar datos de un restaurante
+exports.update = (req, res) => {
+    const id = req.params.id;
+    if (!req.body.nombre) {
+        res.status(400).send({
+            message: "Debe enviar el nombre del restaurante!"
+        });
+        return;
+    }
+    if (!req.body.direccion) {
+        res.status(400).send({
+            message: "Debe enviar la direccion del restaurante!"
+        });
+        return;
+    }
+    Restaurante.findByPk(id)
+        .then(restaurante => {
+            restaurante.nombre = req.body.nombre;
+            restaurante.direccion = req.body.direccion;
+            restaurante.save();
+            res.send(restaurante);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error al obtener restaurante con id=" + id
+            });
+        });
+}
+
+exports.delete = (req, res) => {
+    const id = req.params.id;
+    Restaurante.findByPk(id)
+        .then(restaurante => {
+            restaurante.destroy();
+            res.send();
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error al obtener restaurante con id=" + id
+            });
+        });
+}
