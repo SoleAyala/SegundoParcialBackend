@@ -22,6 +22,7 @@ app.get("/", (req, res) => {
 
 // set port, listen for requests
 const PORT = process.env.PORT || 9090;
+
 require("./app/routes/cliente.routes")(app);
 
 app.listen(PORT, () => {
