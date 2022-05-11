@@ -79,7 +79,7 @@ exports.findbycedula = (req, res) => {
 exports.findAll = (req, res) => {
     const nombre = req.query.nombre;
     var condition = nombre ? { cliente: { [Op.iLike]: `%${nombre}%` } } : null;
-    Ventas.findAll({ where: condition })
+    Cliente.findAll({ where: condition })
         .then(data => {
             res.send(data);
         })

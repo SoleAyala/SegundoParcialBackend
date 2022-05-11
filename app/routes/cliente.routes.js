@@ -1,5 +1,3 @@
-const cliente = require("../controllers/clientedao.controller");
-
 module.exports = app => {
 
     const cliente = require("../controllers/clientedao.controller.js");
