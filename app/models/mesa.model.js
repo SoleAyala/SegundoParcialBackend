@@ -9,17 +9,21 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false
         },
-        pocision: {
-            type: Sequelize.STRING,
+        x: {
+            type: Sequelize.BIGINT,
+            allowNull: false
+        },
+        y: {
+            type: Sequelize.BIGINT,
             allowNull: false
         },
         planta: {
-            type: Sequelize.STRING,
+            type: Sequelize.BIGINT,
             allowNull: false,
             defaultValue : 1
         },
         capacidad: {
-            type: Sequelize.STRING,
+            type: Sequelize.BIGINT,
             allowNull: false
         }
     });

@@ -4,5 +4,5 @@ module.exports = app => {
     router.post("/", reservacion.create);
     router.get("/:id", reservacion.findOne);
     router.get("/:id", reservacion.delete);
-    app.use('/api/restaurantes', router);
+    app.use('/api/reservaciones', router);
 };

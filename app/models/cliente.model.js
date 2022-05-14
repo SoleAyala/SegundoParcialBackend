@@ -7,19 +7,28 @@ module.exports = (sequelize, Sequelize) => {
             autoIncrement: true // el valor es autoincrementado
         },
         cedula: {
-            type: Sequelize.STRING,// tipo string
-            unique: true,// es unico
-            allowNull: false// no se permite dejar vacio el campo
+            type: Sequelize.STRING,
+            unique: true,
+            allowNull: false,
+            validate: {
+                notEmpty: true //no permite cadenas vacias
+            }
         },
 
         nombre: {
-            type: Sequelize.STRING,// tipo string
-            allowNull: false// no se permite dejar vacio el campo
+            type: Sequelize.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
         },
 
         apellido: {
             type: Sequelize.STRING,// tipo string
-            allowNull: false// no se permite dejar vacio el campo
+            allowNull: false,// no se permite dejar vacio el campo
+            validate: {
+                notEmpty: true
+            }
         }
     });
     return Cliente;

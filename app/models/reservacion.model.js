@@ -10,14 +10,14 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.DATE,
             allowNull : false
         },
-        rango:{
-            type : Sequelize.STRING,
-            allowNull: false
-        },
-        cantidad: {
+        horaInicio: {
             type: Sequelize.INTEGER,
-            defaultValue: 1,
-            allowNull: false
+            allowNull : false
+        },
+        horaFin: {
+            type: Sequelize.INTEGER,
+            allowNull : false
         }
+
     });
 };

@@ -4,27 +4,13 @@ const Op = db.Sequelize.Op;
 
 
 
-//CREACION DE UN RESTAURANTE
 exports.create = (req, res) => {
-// Validate request
-    if (!req.body.nombre) {
-        res.status(400).send({
-            message: "Debe enviar el nombre del restaurante!"
-        });
-        return;
-    }
-    if (!req.body.direccion) {
-        res.status(400).send({
-            message: "Debe enviar la direccion del restaurante!"
-        });
-        return;
-    }
-// crea un registro restaurante
+
     const restaurante = {
         nombre: req.body.nombre,
         direccion: req.body.direccion
     };
-// Guardamos a la base de datos
+
     Restaurante.create(restaurante)
         .then(data => {
             res.send(data);
@@ -42,7 +28,11 @@ exports.findOne = (req, res) => {
     const id = req.params.id;
     Restaurante.findByPk(id)
         .then(data => {
-            res.send(data);
+            if(data){
+                res.send(data);
+            }else{
+                res.status(404).send("No encontrado");
+            }
         })
         .catch(err => {
             res.status(500).send({
@@ -52,8 +42,19 @@ exports.findOne = (req, res) => {
 };
 
 
+exports.findAll = (req,res) => {
+    Restaurante.findAll().then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).send({
+            message: "Error al obtener todos los restaurantes"
+        });
+    });
+}
+
+
 //obtener todos los restaurantes
-exports.findAll = (req, res) => {
+exports.findByNombre = (req, res) => {
     const nombre = req.query.nombre;
     var condition = nombre ? { cliente: { [Op.iLike]: `%${nombre}%` } } : null;
     Restaurante.findAll({ where: condition })
@@ -63,7 +64,7 @@ exports.findAll = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Ocurrio un error al obtener la lista de restaurantes."
+                    err.message || "Ocurrio un error al obtener el restaurante."
             });
         });
 };
@@ -71,42 +72,33 @@ exports.findAll = (req, res) => {
 //actualizar datos de un restaurante
 exports.update = (req, res) => {
     const id = req.params.id;
-    if (!req.body.nombre) {
-        res.status(400).send({
-            message: "Debe enviar el nombre del restaurante!"
-        });
-        return;
+    const restaurante = {
+        nombre: req.body.nombre,
+        direccion: req.body.direccion
     }
-    if (!req.body.direccion) {
-        res.status(400).send({
-            message: "Debe enviar la direccion del restaurante!"
-        });
-        return;
-    }
-    Restaurante.findByPk(id)
-        .then(restaurante => {
-            restaurante.nombre = req.body.nombre;
-            restaurante.direccion = req.body.direccion;
-            restaurante.save();
-            res.send(restaurante);
+    Restaurante.update(restaurante, {
+        where: {
+            id: id
+        }
+    }).then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).send({
+            message: "Error al actualizar el restaurante con id: " + id
         })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error al obtener restaurante con id=" + id
-            });
-        });
+    });
 }
 
-exports.delete = (req, res) => {
+exports.delete = (req,res) => {
     const id = req.params.id;
-    Restaurante.findByPk(id)
-        .then(restaurante => {
-            restaurante.destroy();
-            res.send();
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error al obtener restaurante con id=" + id
-            });
-        });
+    Restaurantes.destroy({
+        where: {
+            id: id
+        }
+    }).then(data => {
+        res.status(204).send();
+    }).catch(err => {
+        res.status(500).send("Error al eliminar el restaurante con id: " + id);
+    })
 }
+
