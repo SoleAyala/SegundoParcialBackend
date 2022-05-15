@@ -23,22 +23,23 @@ exports.create = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Ha ocurrido un error al crear un cliente."
+                    err.message || "Error al crear el cliente."
             });
         });
 };
 
 
 exports.update = (req,res) => {
+    const id = req.params.id
+
     const cliente = {
-        id: req.body.id,
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         cedula: req.body.cedula
     }
     Clientes.update(cliente, {
         where: {
-            id: req.body.id
+            id: id
         }
     }).then(data => {
         res.send(data);

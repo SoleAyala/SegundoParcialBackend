@@ -18,7 +18,7 @@ exports.create = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Ha ocurrido un error al crear el restaurante."
+                    err.message || "Error al crear el restaurante."
             });
         });
 };
@@ -53,10 +53,9 @@ exports.findAll = (req,res) => {
 }
 
 
-//obtener todos los restaurantes
 exports.findByNombre = (req, res) => {
     const nombre = req.query.nombre;
-    var condition = nombre ? { cliente: { [Op.iLike]: `%${nombre}%` } } : null;
+    var condition = nombre ? { restaurante: { [Op.iLike]: `%${nombre}%` } } : null;
     Restaurante.findAll({ where: condition })
         .then(data => {
             res.send(data);
@@ -99,6 +98,6 @@ exports.delete = (req,res) => {
         res.status(204).send();
     }).catch(err => {
         res.status(500).send("Error al eliminar el restaurante con id: " + id);
-    })
+    });
 }
 

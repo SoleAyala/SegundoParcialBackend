@@ -11,6 +11,6 @@ module.exports = app => {
     router.get("/consulta", cliente.findByCedula);
     router.get("/consulta", cliente.findByNombre);
     //router.put("/:id",cliente.update);
-    app.use('/api/clientes', router);
+    app.use('/api/cliente', router);
 
 };
