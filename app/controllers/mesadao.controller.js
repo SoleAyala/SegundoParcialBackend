@@ -4,39 +4,17 @@ const Op = db.Sequelize.Op;
 
 //creacion de mesa
 exports.create = (req, res) => {
-// Validate request
-    if (!req.body.nombre) {
-        res.status(400).send({
-            message: "Debe enviar el nombre de la mesa!"
-        });
-        return;
-    }
-    if (!req.body.pocision) {
-        res.status(400).send({
-            message: "Debe enviar la posicion de la mesa!"
-        });
-        return;
-    }
-    if (!req.body.planta) {
-        res.status(400).send({
-            message: "Debe enviar la planta de la mesa!"
-        });
-        return;
-    }
-    if (!req.body.capacidad) {
-        res.status(400).send({
-            message: "Debe enviar la capacidad de comensales de la mesa!"
-        });
-        return;
-    }
-// crea un registro restaurante
+
     const mesa = {
         nombre: req.body.nombre,
-        posicion: req.body.pocision,
+        x: req.body.x,
+        y: req.body.y,
         planta : req.body.planta,
-        capacidad: req.body.capacidad
+        capacidad: req.body.capacidad,
+        RestauranteId: req.body.RestauranteId ////////////
+
     };
-// Guardamos a la base de datos
+
     Mesa.create(mesa)
         .then(data => {
             res.send(data);
@@ -44,15 +22,79 @@ exports.create = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Ha ocurrido un error al crear la mesa."
+                    err.message || "Error al crear mesa."
             });
         });
 };
 
-//obtener todas las mesas
-exports.findAll = (req, res) => {
+
+exports.update = (req,res) => {
+    const id = req.params.id
+    const mesa = {
+        nombre: req.body.nombre,
+        x: req.body.x,
+        y: req.body.y,
+        planta: req.body.planta,
+        capacidad: req.body.capacidad,
+        RestauranteId: req.body.RestauranteId
+    }
+    Mesa.update(mesa, {
+        where: {
+            id: id
+        }
+    }).then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).send({
+            message: "Error al modificar la mesa con id: " + id
+        })
+    });
+}
+
+exports.delete = (req,res) => {
+    const id = req.params.id;
+    Mesa.destroy({
+        where: {
+            id: id
+        }
+    }).then(data => {
+        res.status(204).send();
+    }).catch(err => {
+        res.status(500).send("Error al eliminar el mesa con id: " + id);
+    })
+}
+
+exports.findOne = (req, res) => {
+    const id = req.params.id;
+    Mesa.findByPk(id).then(data => {
+        if (data){
+            res.send(data);
+        }
+        else{
+            res.status(404).send("Not found");
+        }
+    }).catch(err => {
+        res.status(500).send({
+            message: "Error al obtener mesa con id=" + id
+        });
+    });
+};
+
+
+exports.findAll = (req,res) => {
+    Mesa.findAll().then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).send({
+            message: "Error al obtener las mesas"
+        });
+    });
+}
+
+
+exports.findByNombre = (req, res) => {
     const nombre = req.query.nombre;
-    var condition = nombre ? { cliente: { [Op.iLike]: `%${nombre}%` } } : null;
+    var condition = nombre ? { mesa: { [Op.iLike]: `%${nombre}%` } } : null;
     Mesa.findAll({ where: condition })
         .then(data => {
             res.send(data);
@@ -60,35 +102,7 @@ exports.findAll = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Ocurrio un error al obtener la lista de mesas."
+                    err.message || "Error al obtener las mesas."
             });
         });
 };
-
-//obtener una mesa a partir de un id especifico
-exports.findOne = (req, res) => {
-    const id = req.params.id;
-    Mesa.findByPk(id)
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error al encontrar la mesa con id=" + id
-            });
-        });
-};
-
-exports.delete = (req, res) => {
-    const id = req.params.id;
-    Mesa.findByPk(id)
-        .then(mesa => {
-            mesa.destroy();
-            res.send();
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error al obtener la mesa con id=" + id
-            });
-        });
-}

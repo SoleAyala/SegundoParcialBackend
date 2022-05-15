@@ -1,6 +1,3 @@
-const mesa = require("../controllers/mesadao.controller");
-const restaurante = require("../controllers/restaurantedao.controller");
-const cliente = require("../controllers/clientedao.controller.js");
 module.exports = app => {
     const restaurante = require("../controllers/restaurantedao.controller");
     var router = require("express").Router();

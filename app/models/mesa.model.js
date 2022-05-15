@@ -26,6 +26,13 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.BIGINT,
             allowNull: false
         }
+    },{
+        indexes: [
+            {
+                    unique: true,
+                    fields: ['nombre', 'x', 'y', 'planta', 'RestauranteId']
+            }
+        ]
     });
     return Mesa;
 };

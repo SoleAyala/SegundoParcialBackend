@@ -7,17 +7,18 @@ module.exports = (sequelize, Sequelize) => {
             autoIncrement: true
         },
         fecha: {
-            type: Sequelize.DATE,
+            type: Sequelize.DATEONLY,
             allowNull : false
         },
         horaInicio: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.BIGINT,
             allowNull : false
         },
         horaFin: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.BIGINT,
             allowNull : false
         }
 
     });
+    return Reservacion;
 };

@@ -37,7 +37,7 @@ exports.update = (req,res) => {
         apellido: req.body.apellido,
         cedula: req.body.cedula
     }
-    Clientes.update(cliente, {
+    Cliente.update(cliente, {
         where: {
             id: id
         }
@@ -52,7 +52,7 @@ exports.update = (req,res) => {
 
 exports.delete = (req,res) => {
     const id = req.params.id;
-    Clientes.destroy({
+    Cliente.destroy({
         where: {
             id: id
         }
@@ -127,7 +127,7 @@ exports.findByNombre = (req, res) => {
 };
 
 exports.findAll = (req,res) => {
-    Clientes.findAll().then(data => {
+    Cliente.findAll().then(data => {
         res.send(data);
     }).catch(err => {
         res.status(500).send({

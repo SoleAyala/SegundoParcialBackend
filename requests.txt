@@ -1,0 +1,60 @@
+--------------clientes-----------------
+
+GET  http://localhost:9090/api/cliente
+
+POST  http://localhost:9090/api/cliente
+{
+    "nombre":"camila",
+    "apellido": "alderete",
+    "cedula": 4975479
+}
+
+PUT  http://localhost:9090/api/cliente/1
+{
+    "nombre":"camila",
+    "apellido": "alderetess",
+    "cedula": 4975479
+}
+
+DELETE  http://localhost:9090/api/cliente/1
+
+GET http://localhost:9090/api/cliente/1
+
+GET  http://localhost:9090/api/cliente?nombre=cami
+
+--------------restaurantes-----------------
+
+GET  http://localhost:9090/api/restaurante
+
+POST  http://localhost:9090/api/restaurante
+{
+    "nombre":"Lomilandia",
+    "direccion": "Rca Argentina"
+}
+
+PUT  http://localhost:9090/api/restaurante/1
+{
+    "nombre":"Lomilandia Original",
+    "direccion": "Rca Argentina"
+}
+
+DELETE http://localhost:9090/api/restaurante/1
+
+GET  http://localhost:9090/api/restaurante/1
+
+GET  http://localhost:9090/api/restaurante?nombre=lomi
+
+------------------mesas----------------------
+
+GET  http://localhost:9090/api/mesa
+
+POST http://localhost:9090/api/mesa
+{
+    "nombre": "mesa 1",
+    "x": 1,
+    "y": 1,
+    "planta":1
+    "capacidad": 9,
+    "RestauranteId": 1
+}
+
