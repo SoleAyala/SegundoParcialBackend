@@ -1,8 +1,13 @@
 const reservacion = require("../controllers/reservaciondao.controller");
+const mesa = require("../controllers/mesadao.controller");
 module.exports = app => {
     var router = require("express").Router();
     router.post("/", reservacion.create);
+    router.put("/:id", reservacion.update);
+    router.delete("/:id", reservacion.delete);
     router.get("/:id", reservacion.findOne);
-    router.get("/:id", reservacion.delete);
-    app.use('/api/reservaciones', router);
+    router.get("/", reservacion.findAll);
+
+
+    app.use('/api/reservacion', router);
 };

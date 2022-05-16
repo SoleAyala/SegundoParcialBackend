@@ -1,3 +1,5 @@
+//https://sequelize.org/docs/v6/core-concepts/validations-and-constraints/
+
 module.exports = (sequelize, Sequelize) => {
     const Mesa = sequelize.define("Mesa", {
         id: {
@@ -7,7 +9,10 @@ module.exports = (sequelize, Sequelize) => {
         },
         nombre: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
         },
         x: {
             type: Sequelize.BIGINT,
@@ -20,19 +25,26 @@ module.exports = (sequelize, Sequelize) => {
         planta: {
             type: Sequelize.BIGINT,
             allowNull: false,
-            defaultValue : 1
+            defaultValue: 1,
+            validate: {
+                min: 1
+            }
         },
         capacidad: {
             type: Sequelize.BIGINT,
-            allowNull: false
-        }
-    },{
-        indexes: [
-            {
-                    unique: true,
-                    fields: ['nombre', 'x', 'y', 'planta', 'RestauranteId']
+            allowNull: false,
+            validate: {
+                min: 1
             }
-        ]
+        }
     });
+    // },{
+    //     indexes: [
+    //         {
+    //                 unique: true,
+    //                 fields: ['x', 'y', 'planta', 'RestauranteId']
+    //         }
+    //     ]
+    // });
     return Mesa;
 };

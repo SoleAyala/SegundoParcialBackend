@@ -48,13 +48,58 @@ GET  http://localhost:9090/api/restaurante?nombre=lomi
 
 GET  http://localhost:9090/api/mesa
 
+GET  http://localhost:9090/api/mesa/1
+
 POST http://localhost:9090/api/mesa
 {
     "nombre": "mesa 1",
     "x": 1,
     "y": 1,
-    "planta":1
+    "planta":1,
     "capacidad": 9,
     "RestauranteId": 1
 }
+
+PUT http://localhost:9090/api/mesa/1
+
+{
+    "nombre": "mesa 1",
+    "x": 1,
+    "y": 1,
+    "planta":2,
+    "capacidad": 8,
+    "RestauranteId": 1
+}
+
+DELETE http://localhost:9090/api/mesa/1
+
+-----------reservacion---------------
+GET http://localhost:9090/api/reservacion
+
+GET http://localhost:9090/api/reservacion/1
+
+POST http://localhost:9090/api/reservacion
+{
+    "fecha": "2022-05-11",
+    "horaInicio":12,
+    "horaFin":14,
+    "RestauranteId":1,
+    "MesaId":5,
+    "ClienteId":2
+}
+
+PUT http://localhost:9090/api/reservacion/1
+
+{
+    "fecha": "2022-05-11",
+    "horaInicio":14,
+    "horaFin":16,
+    "RestauranteId":1,
+    "MesaId":1,
+    "ClienteId":1
+}
+
+DELETE http://localhost:9090/api/reservacion/2
+
+
 
