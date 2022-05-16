@@ -6,8 +6,8 @@ module.exports = app => {
     router.delete("/:id",cliente.delete);
     router.get("/:id", cliente.findOne);
     router.get("/", cliente.findAll);
-    router.get("/consultaConCedula", cliente.findByCedula);
-    router.get("/consultaConNombre", cliente.findByNombre);
+    //router.get("/cedula", cliente.findByCedula);
+    //router.get("/consultaConNombre", cliente.findByNombre);
     app.use('/api/cliente', router);
 
 };

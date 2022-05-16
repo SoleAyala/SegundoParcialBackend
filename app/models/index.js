@@ -1,3 +1,10 @@
+//relaciones
+//https://sequelize.org/api/v6/class/src/associations/base.js~association
+
+//clave foranea no nula
+//https://github.com/sequelize/sequelize/issues/2837
+
+
 const dbConfig = require("../config/db.config.js");
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
@@ -19,8 +26,6 @@ db.Restaurante = require("./restaurante.model.js")(sequelize, Sequelize);
 db.Mesa = require("./mesa.model.js")(sequelize, Sequelize);
 db.Reservacion = require("./reservacion.model")(sequelize, Sequelize);
 
-//relaciones
-//https://sequelize.org/api/v6/class/src/associations/base.js~association
 
 db.Restaurante.hasMany(db.Mesa, {
     foreignKey: {

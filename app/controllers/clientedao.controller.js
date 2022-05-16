@@ -83,6 +83,23 @@ exports.findOne = (req, res) => {
 };
 
 
+exports.findAll = (req,res) => {
+    Cliente.findAll().then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).send({
+            message: "Error al obtener todos los clientes"
+        });
+    });
+}
+
+
+/*
+NO FUNCIONA: findByCedula ni finByNombre
+al llamarlos se ejecuta findAll...
+conflito con get
+* */
+
 //obtener cliente a partir de un numero de cedula
 exports.findByCedula = (req, res) => {
     const cedula = req.query.cedula;
@@ -126,36 +143,6 @@ exports.findByNombre = (req, res) => {
         });
 };
 
-exports.findAll = (req,res) => {
-    Cliente.findAll().then(data => {
-        res.send(data);
-    }).catch(err => {
-        res.status(500).send({
-            message: "Error al obtener todos los clientes"
-        });
-    });
-}
 
 
-
-//
-// exports.update = (req,res) => {
-//     const id = req.params.id
-//     const cliente = {
-//         nombre: req.body.nombre,
-//         apellido: req.body.apellido,
-//         cedula: req.body.cedula
-//     }
-//     Clientes.update(cliente, {
-//         where: {
-//             id: id
-//         }
-//     }).then(data => {
-//         res.send(data);
-//     }).catch(err => {
-//         res.status(500).send({
-//             message: "Error al tratar de actualizar el cliente con id: " + id
-//         })
-//     });
-// }
 

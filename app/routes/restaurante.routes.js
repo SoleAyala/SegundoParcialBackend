@@ -6,7 +6,6 @@ module.exports = app => {
     router.delete("/:id", restaurante.delete);
     router.get("/", restaurante.findAll);
     router.get("/:id", restaurante.findOne);
-    router.get("/consulta", restaurante.findByNombre);
-
+    //router.get("/consulta", restaurante.findByNombre);
     app.use('/api/restaurante', router);
 };
