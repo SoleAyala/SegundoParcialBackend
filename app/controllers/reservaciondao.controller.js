@@ -1,5 +1,6 @@
 const db = require("../models");
 const Reservacion = db.Reservacion;
+const { Op } = require("sequelize");
 
 //id, id de restaurante, id de mesa, fecha, rango de hora, id de cliente
 exports.create = (req, res) => {
@@ -48,7 +49,7 @@ exports.update = (req,res) => {
             message: "Error al actualizar la reserva"
         })
     });
-}
+};
 
 
 exports.delete = (req,res) => {
@@ -62,7 +63,7 @@ exports.delete = (req,res) => {
     }).catch(err => {
         res.status(500).send("Error al eliminar la reserva");
     })
-}
+};
 
 
 exports.findOne = (req, res) => {
@@ -89,4 +90,50 @@ exports.findAll = (req,res) => {
             message: "Error al obtener todas las reservas"
         });
     });
-}
+};
+
+
+exports.filter = (req, res) => {
+    /*posibles parametros de filtro*/
+    const restaurante = req.body.restauranteId;
+    const fechaString = req.body.fecha;
+    const clienteId = req.body.clienteId;
+    let fecha = Date.parse(fechaString);
+    var condition = null;
+
+    /*definicion de la condicion */
+    if (clienteId) {
+        condition = {
+            restauranteId: restaurante,
+            fecha: {
+                [Op.eq]: fecha
+            },
+            clienteId: clienteId
+        }
+    }else{
+        condition = {
+            restauranteId: restaurante,
+            fecha: {
+                [Op.eq]: fecha
+            }
+        }
+    }
+
+    /*extraccion*/
+    Reservacion.findAll({
+        where: condition,
+        order: [
+            ['horario', 'ASC'],
+            ['mesaId', 'ASC']
+        ]
+    })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Ocurrio un error al obtener las reservaciones."
+            });
+        });
+};
