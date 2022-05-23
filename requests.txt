@@ -84,8 +84,8 @@ POST http://localhost:9090/api/reservacion
     "horaInicio":12,
     "horaFin":14,
     "RestauranteId":1,
-    "MesaId":5,
-    "ClienteId":2
+    "MesaId":1,
+    "ClienteId":1
 }
 
 PUT http://localhost:9090/api/reservacion/1
@@ -105,7 +105,7 @@ DELETE http://localhost:9090/api/reservacion/2
 
 Reservaciones de 1 cliente en 1 restaurante en 1 fecha ordenados por horas y mesas:
 
-GET http://localhost:9090/api/reservacion/filter
+POST http://localhost:9090/api/reservacion/filter
 {
     "fecha": "2022-05-11",
     "RestauranteId":1,
@@ -116,7 +116,7 @@ GET http://localhost:9090/api/reservacion/filter
 
 Mesas libres de 1 restaurante en 1 fecha en 1 rango de horas:
 
-GET http://localhost:9090/api/reservacion/libres
+POST http://localhost:9090/api/reservacion/libres
 {
     "fecha": "2022-05-11",
     "horaInicio":18,
