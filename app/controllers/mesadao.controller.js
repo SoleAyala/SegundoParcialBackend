@@ -19,11 +19,11 @@ exports.create = (req, res) => {
         .then(data => {
             console.log("Creado MESA exitosamente con los siguientes datos: "+
                 "nombre: " + mesa.nombre+
-                " x: " +mesa.x+
-                " y: "+mesa.y+
-                " planta: "+mesa.planta+
-                " capacidad: "+mesa.capacidad+
-                " restauranteID: "+mesa.RestauranteId);
+                ", x: " +mesa.x+
+                ", y: "+mesa.y+
+                ", planta: "+mesa.planta+
+                ", capacidad: "+mesa.capacidad+
+                ", restauranteID: "+mesa.RestauranteId);
             res.send(data);
         })
         .catch(err => {
@@ -53,11 +53,11 @@ exports.update = (req,res) => {
     }).then(data => {
         console.log("Actualizado MESA exitosamente con los siguientes datos: "+
             "nombre: " + mesa.nombre+
-            " x: " +mesa.x+
-            " y: "+mesa.y+
-            " planta: "+mesa.planta+
-            " capacidad: "+mesa.capacidad+
-            " restauranteID: "+mesa.RestauranteId);
+            ", x: " +mesa.x+
+            ", y: "+mesa.y+
+            ", planta: "+mesa.planta+
+            ", capacidad: "+mesa.capacidad+
+            ", restauranteID: "+mesa.RestauranteId);
         res.send(data);
     }).catch(err => {
         console.log("Error al modificar la mesa con id: "+id +". Error: "+ err.message);
@@ -90,7 +90,7 @@ exports.findOne = (req, res) => {
             res.send(data);
         }
         else{
-            console.log("No obtenido MESA con el id: "+id)
+            console.log("No encontrado MESA con el id: "+id)
             res.status(404).send("Not found");
         }
     }).catch(err => {

@@ -20,16 +20,16 @@ exports.create = (req, res) => {
         .then(data => {
             console.log("Creado RESERVACION exitosamente con los siguientes datos: "+
                 "fecha: " + reservacion.nombre+
-                " hora Inicio: " + reservacion.horaInicio+
-                " hora Fin: " + reservacion.horaFin+
-                " RestauranteId: " + reservacion.RestauranteId+
-                " MesaId: " + reservacion.MesaId+
-                " ClienteId: " + reservacion.ClienteId
+                ", hora Inicio: " + reservacion.horaInicio+
+                ", hora Fin: " + reservacion.horaFin+
+                ", RestauranteId: " + reservacion.RestauranteId+
+                ", MesaId: " + reservacion.MesaId+
+                ", ClienteId: " + reservacion.ClienteId
             );
             res.send(data);
         })
         .catch(err => {
-            console.log("Error al craer la reservacion en la fecha: "+reservacion.fecha+" en el restaurante:"+reservacion.RestauranteId+". Error: "+ err.message);
+            console.log("Error al craer la reservacion en la fecha: "+reservacion.fecha+" en el restaurante: "+reservacion.RestauranteId+". Error: "+ err.message);
             res.status(500).send({
                 message:
                     err.message || "Error al reservar la mesa."
@@ -55,15 +55,15 @@ exports.update = (req,res) => {
     }).then(data => {
         console.log("Actualizado RESERVACION exitosamente con los siguientes datos: "+
             "fecha: " + reserva.nombre+
-            " hora Inicio: " + reserva.horaInicio+
-            " hora Fin: " + reserva.horaFin+
-            " RestauranteId: " + reserva.RestauranteId+
-            " MesaId: " + reserva.MesaId+
-            " ClienteId: " + reserva.ClienteId
+            ", hora Inicio: " + reserva.horaInicio+
+            ", hora Fin: " + reserva.horaFin+
+            ", RestauranteId: " + reserva.RestauranteId+
+            ", MesaId: " + reserva.MesaId+
+            ", ClienteId: " + reserva.ClienteId
         );
         res.send(data);
     }).catch(err => {
-        console.log("Error al actualizar la reservacion con fecha: "+reserva.fecha+" en el restaurante:"+reserva.RestauranteId+". Error: "+ err.message);
+        console.log("Error al actualizar la reservacion con fecha: "+reserva.fecha+" en el restaurante: "+reserva.RestauranteId+". Error: "+ err.message);
         res.status(500).send({
             message: "Error al actualizar la reserva"
         })
@@ -95,13 +95,13 @@ exports.findOne = (req, res) => {
             res.send(data);
         }
         else{
-            console.log("No obtenido la reservacion con id: "+id);
+            console.log("No encontrado la reservacion con id: "+id);
             res.status(404).send("No encontrado");
         }
     }).catch(err => {
         console.log("Error al obtener la reservacion con id: "+id+". Error: "+ err.message);
         res.status(500).send({
-            message: "Error al obtener reserva con id=" + id
+            message: "Error al obtener reserva con id= " + id
         });
     });
 };
@@ -161,7 +161,7 @@ exports.mesasLibres = (req, res) => {
                 var mesasDisponibles = totalMesas.filter(
                     mesa => !mesasOcupadas.includes(mesa.id)
                 );
-                console.log("Obtenido todas las MESAS libres exitosamente para la fecha: "+fecha_+" y rango de horario:"+horaInicio_+" - "+horaFin_+" y restaurante: "+restauranteId_ );
+                console.log("Obtenido todas las MESAS libres exitosamente para la fecha: "+fecha_+" y rango de horario: "+horaInicio_+" - "+horaFin_+" y restaurante: "+restauranteId_ );
                 res.send(mesasDisponibles);
             })
             .catch(err => {
@@ -172,7 +172,7 @@ exports.mesasLibres = (req, res) => {
                 });
             });
         }).catch(err => {
-        console.log("Error al obtener todas las mesas libres para la fecha: "+fecha_+" y rango de horario:"+horaInicio_+" - "+horaFin_+" y restaurante: "+restauranteId_ +". Error: "+ err.message);
+        console.log("Error al obtener todas las mesas libres para la fecha: "+fecha_+" y rango de horario: "+horaInicio_+" - "+horaFin_+" y restaurante: "+restauranteId_ +". Error: "+ err.message);
         res.status(500).send({
                 message:
                     err.message || "Ocurrio un error al obtener las mesas libres"
