@@ -18,9 +18,12 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
         idle: dbConfig.pool.idle
     }
 });
+
+
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+
 db.Cliente = require("./cliente.model.js")(sequelize, Sequelize);
 db.Restaurante = require("./restaurante.model.js")(sequelize, Sequelize);
 db.Mesa = require("./mesa.model.js")(sequelize, Sequelize);
@@ -34,7 +37,6 @@ db.Restaurante.hasMany(db.Mesa, {
     },
     onDelete: 'CASCADE'
 });
-
 db.Mesa.belongsTo(db.Restaurante);
 
 db.Restaurante.hasMany(db.Reservacion,{
@@ -53,7 +55,6 @@ db.Mesa.hasMany(db.Reservacion, {
     },
     onDelete: 'CASCADE'
 });
-
 db.Reservacion.belongsTo(db.Mesa);
 
 db.Cliente.hasMany(db.Reservacion, {
@@ -63,7 +64,9 @@ db.Cliente.hasMany(db.Reservacion, {
     },
     onDelete: 'CASCADE'
 });
-
 db.Reservacion.belongsTo(db.Cliente);
+
+
+
 
 module.exports = db;

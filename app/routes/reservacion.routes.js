@@ -5,8 +5,9 @@ module.exports = app => {
     router.post("/", reservacion.create);
     router.put("/:id", reservacion.update);
     router.delete("/:id", reservacion.delete);
+    router.get("/filter", reservacion.filterReservaciones);
+    router.get("/libres", reservacion.mesasLibres);
     router.get("/:id", reservacion.findOne);
     router.get("/", reservacion.findAll);
-    router.post("/filter", reservacion.filter);
     app.use('/api/reservacion', router);
 };
