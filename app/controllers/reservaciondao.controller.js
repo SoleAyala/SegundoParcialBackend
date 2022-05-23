@@ -20,11 +20,11 @@ exports.create = (req, res) => {
         .then(data => {
             console.log("Creado RESERVACION exitosamente con los siguientes datos: "+
                 "fecha: " + reservacion.nombre+
-                " hora Inicio: " + reservacion.horaInicio+
-                " hora Fin: " + reservacion.horaFin+
-                " RestauranteId: " + reservacion.RestauranteId+
-                " MesaId: " + reservacion.MesaId+
-                " ClienteId: " + reservacion.ClienteId
+                ", hora Inicio: " + reservacion.horaInicio+
+                ", hora Fin: " + reservacion.horaFin+
+                ", RestauranteId: " + reservacion.RestauranteId+
+                ", MesaId: " + reservacion.MesaId+
+                ", ClienteId: " + reservacion.ClienteId
             );
             res.send(data);
         })
@@ -55,11 +55,11 @@ exports.update = (req,res) => {
     }).then(data => {
         console.log("Actualizado RESERVACION exitosamente con los siguientes datos: "+
             "fecha: " + reserva.nombre+
-            " hora Inicio: " + reserva.horaInicio+
-            " hora Fin: " + reserva.horaFin+
-            " RestauranteId: " + reserva.RestauranteId+
-            " MesaId: " + reserva.MesaId+
-            " ClienteId: " + reserva.ClienteId
+            ", hora Inicio: " + reserva.horaInicio+
+            ", hora Fin: " + reserva.horaFin+
+            ", RestauranteId: " + reserva.RestauranteId+
+            ", MesaId: " + reserva.MesaId+
+            ", ClienteId: " + reserva.ClienteId
         );
         res.send(data);
     }).catch(err => {

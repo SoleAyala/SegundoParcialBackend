@@ -19,11 +19,11 @@ exports.create = (req, res) => {
         .then(data => {
             console.log("Creado MESA exitosamente con los siguientes datos: "+
                 "nombre: " + mesa.nombre+
-                " x: " +mesa.x+
-                " y: "+mesa.y+
-                " planta: "+mesa.planta+
-                " capacidad: "+mesa.capacidad+
-                " restauranteID: "+mesa.RestauranteId);
+                ", x: " +mesa.x+
+                ", y: "+mesa.y+
+                ", planta: "+mesa.planta+
+                ", capacidad: "+mesa.capacidad+
+                ", restauranteID: "+mesa.RestauranteId);
             res.send(data);
         })
         .catch(err => {
@@ -53,11 +53,11 @@ exports.update = (req,res) => {
     }).then(data => {
         console.log("Actualizado MESA exitosamente con los siguientes datos: "+
             "nombre: " + mesa.nombre+
-            " x: " +mesa.x+
-            " y: "+mesa.y+
-            " planta: "+mesa.planta+
-            " capacidad: "+mesa.capacidad+
-            " restauranteID: "+mesa.RestauranteId);
+            ", x: " +mesa.x+
+            ", y: "+mesa.y+
+            ", planta: "+mesa.planta+
+            ", capacidad: "+mesa.capacidad+
+            ", restauranteID: "+mesa.RestauranteId);
         res.send(data);
     }).catch(err => {
         console.log("Error al modificar la mesa con id: "+id +". Error: "+ err.message);

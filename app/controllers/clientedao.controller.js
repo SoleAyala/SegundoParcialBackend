@@ -20,8 +20,8 @@ exports.create = (req, res) => {
         .then(data => {
             console.log("Creado CLIENTE exitosamente con los siguientes datos: "+
                 "nombre: " + cliente.nombre+
-                " apellido: " +cliente.apellido+
-                " cedula: "+cliente.cedula);
+                ", apellido: " +cliente.apellido+
+                ", cedula: "+cliente.cedula);
             res.send(data);
         })
         .catch(err => {
@@ -49,8 +49,8 @@ exports.update = (req,res) => {
     }).then(data => {
         console.log("Actualizado CLIENTE exitosamente con los siguientes datos: "+
             "nombre: " + cliente.nombre+
-            " apellido: " +cliente.apellido+
-            " cedula: " +cliente.cedula);
+            ", apellido: " +cliente.apellido+
+            ", cedula: " +cliente.cedula);
         res.send(data);
     }).catch(err => {
         console.log("Error al actualizar el CLIENTE con id: "+id+". Error: "+ err.message);

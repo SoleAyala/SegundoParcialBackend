@@ -15,7 +15,7 @@ exports.create = (req, res) => {
         .then(data => {
             console.log("Creado RESTAURANTE exitosamente con los siguientes datos: "+
                 "nombre: " + restaurante.nombre+
-                " direccion: " + restaurante.direccion);
+                ", direccion: " + restaurante.direccion);
             res.send(data);
         })
         .catch(err => {
@@ -93,7 +93,7 @@ exports.update = (req, res) => {
     }).then(data => {
         console.log("Actualizado RESTAURANTE exitosamente con los siguientes datos: "+
             "nombre: " + restaurante.nombre+
-            " direccion: " + restaurante.direccion);
+            ", direccion: " + restaurante.direccion);
         res.send(data);
     }).catch(err => {
         console.log("Error al actualizar el restaurante con id: "+id+". Error: "+ err.message);
