@@ -90,7 +90,7 @@ exports.findOne = (req, res) => {
             res.send(data);
         }
         else{
-            console.log("No obtenido MESA con el id: "+id)
+            console.log("No encontrado MESA con el id: "+id)
             res.status(404).send("Not found");
         }
     }).catch(err => {

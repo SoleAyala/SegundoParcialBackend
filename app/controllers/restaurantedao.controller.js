@@ -36,7 +36,7 @@ exports.findOne = (req, res) => {
                 console.log("Obtenido RESTAURANTE exitosamente con el id: "+id);
                 res.send(data);
             }else{
-                console.log("No obtenido el restaurante con id: "+id+". Error: "+ err.message);
+                console.log("No encontrado el restaurante con id: "+id+". Error: "+ err.message);
                 res.status(404).send("No encontrado");
             }
         })
@@ -71,7 +71,7 @@ exports.findByNombre = (req, res) => {
             res.send(data);
         })
         .catch(err => {
-            console.log("Error al obtener los restaurantes con nombre:"+nombre+". Error: "+ err.message);
+            console.log("Error al obtener los restaurantes con nombre: "+nombre+". Error: "+ err.message);
             res.status(500).send({
                 message:
                     err.message || "Ocurrio un error al obtener el restaurante."
@@ -96,7 +96,7 @@ exports.update = (req, res) => {
             " direccion: " + restaurante.direccion);
         res.send(data);
     }).catch(err => {
-        console.log("Error al actualizar el restaurante con id:"+id+". Error: "+ err.message);
+        console.log("Error al actualizar el restaurante con id: "+id+". Error: "+ err.message);
         res.status(500).send({
             message: "Error al actualizar el restaurante con id: " + id
         })
@@ -113,7 +113,7 @@ exports.delete = (req,res) => {
         console.log("Eliminado RESTAURANTE exitosamente con el id: "+id);
         res.status(204).send();
     }).catch(err => {
-        console.log("Error al eliminar el restaurante con id:"+id+". Error: "+ err.message);
+        console.log("Error al eliminar el restaurante con id: "+id+". Error: "+ err.message);
         res.status(500).send("Error al eliminar el restaurante con id: " + id);
     });
 }

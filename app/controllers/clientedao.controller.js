@@ -50,7 +50,7 @@ exports.update = (req,res) => {
         console.log("Actualizado CLIENTE exitosamente con los siguientes datos: "+
             "nombre: " + cliente.nombre+
             " apellido: " +cliente.apellido+
-            " cedula: "+cliente.cedula);
+            " cedula: " +cliente.cedula);
         res.send(data);
     }).catch(err => {
         console.log("Error al actualizar el CLIENTE con id: "+id+". Error: "+ err.message);
@@ -131,7 +131,7 @@ exports.findByCedula = (req, res) => {
             console.log("Obtenido CLIENTE exitosamente con cedula: "+cedula);
             res.send(data);
         }else{
-            console.log("No obtenido CLIENTE con cedula: "+cedula);
+            console.log("No encontrado CLIENTE con cedula: "+cedula);
             res.status(404).send("No encontrado")
         }
     }).catch(err => {
@@ -153,7 +153,7 @@ exports.findByNombre = (req, res) => {
                 console.log("Obtenido los CLIENTES exitosamente con nombre: "+nombre);
                 res.send(data);
             }else{
-                console.log("No obtenido los CLIENTES con nombre: "+nombre);
+                console.log("No encontrado los CLIENTES con nombre: "+nombre);
                 res.status(404).send("No encontrado")
             }
         })
