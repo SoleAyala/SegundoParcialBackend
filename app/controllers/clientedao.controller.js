@@ -111,6 +111,31 @@ exports.findAll = (req,res) => {
 }
 
 
+exports.findByCedula = (req, res) => {
+    const cedula = req.params.ci;
+    Cliente.findOne(
+        {
+            where: {
+                cedula:cedula
+            }
+        }
+    ).then(data => {
+        if (data){
+            console.log("Obtenido CLIENTE exitosamente con cedula: "+cedula);
+            res.send(data);
+        }else{
+            console.log("No encontrado CLIENTE con cedula: "+cedula);
+            res.status(404).send("No encontrado")
+        }
+    }).catch(err => {
+        console.log("Error al encontrar el cliente con cedula=" + cedula+". Error: "+ err.message);
+        res.status(500).send({
+            message: "Error al tratar de encontrar el cliente con cedula=" + cedula
+        });
+    });
+};
+
+
 /*
 NO FUNCIONA: findByCedula ni finByNombre
 al llamarlos se ejecuta findAll...
@@ -118,7 +143,7 @@ conflito con get
 * */
 
 //obtener cliente a partir de un numero de cedula
-exports.findByCedula = (req, res) => {
+/*exports.findByCedula = (req, res) => {
     const cedula = req.query.cedula;
     Cliente.findOne(
         {
@@ -165,6 +190,7 @@ exports.findByNombre = (req, res) => {
             });
         });
 };
+*/
 
 
 

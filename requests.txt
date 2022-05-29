@@ -22,6 +22,8 @@ GET http://localhost:9090/api/cliente/1
 
 GET  http://localhost:9090/api/cliente?nombre=cami
 
+GET http://localhost:9090/api/cliente/cedula/4545454
+
 --------------restaurantes-----------------
 
 GET  http://localhost:9090/api/restaurante
