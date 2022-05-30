@@ -37,14 +37,15 @@ module.exports = (sequelize, Sequelize) => {
                 min: 1
             }
         }
-    });
-    // },{
-    //     indexes: [
-    //         {
-    //                 unique: true,
-    //                 fields: ['x', 'y', 'planta', 'RestauranteId']
-    //         }
-    //     ]
-    // });
+    },
+    //);
+    {
+         indexes: [
+             {
+                     unique: true,
+                     fields: ['x', 'y', 'planta', 'RestauranteId']
+             }
+         ]
+     });
     return Mesa;
 };
