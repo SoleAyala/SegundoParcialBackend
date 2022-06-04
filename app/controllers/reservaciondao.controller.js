@@ -227,3 +227,17 @@ exports.filterReservaciones = (req, res) => {
             });
         });
 };
+
+//prueba con sql
+exports.listaReservaciones = async (req, res) => {
+
+    consulta = 'select r.id, r.fecha, r."horaInicio", r."horaFin", restaurante.id as "RestauranteId", restaurante.nombre as "nombreRestaurante", mesa.id as "MesaId", mesa.nombre as "nombreMesa", mesa.capacidad, c.id as "ClienteId", c.nombre as "nombreCliente" \n' +
+        'from public."Reservacions" r join public."Restaurantes" restaurante on r."RestauranteId" = restaurante.id\n' +
+        'join public."Mesas" mesa on mesa.id = r."MesaId"\n' +
+        'join public."Clientes" c on c.id = r."ClienteId"\n' +
+        ';'
+    reservaciones = await db.sequelize.query(consulta);
+
+    return res.status(200).json(reservaciones[0]);
+
+}

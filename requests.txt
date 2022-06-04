@@ -125,3 +125,8 @@ POST http://localhost:9090/api/reservacion/libres
     "horaFin":22,
     "RestauranteId":1
 }
+
+
+
+NUEVO ENDPOINT - SE TRAE TODAS LAS RESERVAS (SE HIZO JOIN CON CLIENTES, RESTAURANTES Y MESAS)
+POST http://localhost:9090/api/reservacion/prueba
