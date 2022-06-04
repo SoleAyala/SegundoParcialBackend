@@ -183,50 +183,50 @@ exports.mesasLibres = (req, res) => {
 
 //  5. filtro de reservaciones por 1 CLIENTE, 1 FECHA , 1 RESTURANTE (por separado: 3 filtros, todos ordenados por HORARIO -crec- Y MESA -crec-)
 
-exports.filterReservaciones = (req, res) => {
-
-    const restaurante = req.body.RestauranteId;
-    const clienteId = req.body.ClienteId;
-    const fechaString = req.body.fecha;
-    var condition = null;
-    /*definicion de la condicion */
-    if (clienteId) {
-        condition = {
-            RestauranteId: restaurante,
-            fecha: {
-                [Op.eq]: fechaString
-            },
-            ClienteId: clienteId
-        }
-    }else{
-        condition = {
-            RestauranteId: restaurante,
-            fecha: {
-                [Op.eq]: fechaString
-            }
-        }
-    }
-
-    /*extraccion*/
-    Reservacion.findAll({
-        where: condition,
-        order: [
-            ['horaInicio', 'ASC'],
-            ['horaFin', 'ASC'],
-            ['MesaId', 'ASC']
-        ]
-    })
-        .then(data => {
-            console.log("Obtenido las RESERVACIONES exitosamente del cliente: "+clienteId+" en fecha: "+fechaString+" en el restaurante: "+restaurante);
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Ocurrio un error al obtener las reservaciones."
-            });
-        });
-};
+// exports.filterReservaciones = (req, res) => {
+//
+//     const restaurante = req.body.RestauranteId;
+//     const clienteId = req.body.ClienteId;
+//     const fechaString = req.body.fecha;
+//     var condition = null;
+//     /*definicion de la condicion */
+//     if (clienteId) {
+//         condition = {
+//             RestauranteId: restaurante,
+//             fecha: {
+//                 [Op.eq]: fechaString
+//             },
+//             ClienteId: clienteId
+//         }
+//     }else{
+//         condition = {
+//             RestauranteId: restaurante,
+//             fecha: {
+//                 [Op.eq]: fechaString
+//             }
+//         }
+//     }
+//
+//     /*extraccion*/
+//     Reservacion.findAll({
+//         where: condition,
+//         order: [
+//             ['horaInicio', 'ASC'],
+//             ['horaFin', 'ASC'],
+//             ['MesaId', 'ASC']
+//         ]
+//     })
+//         .then(data => {
+//             console.log("Obtenido las RESERVACIONES exitosamente del cliente: "+clienteId+" en fecha: "+fechaString+" en el restaurante: "+restaurante);
+//             res.send(data);
+//         })
+//         .catch(err => {
+//             res.status(500).send({
+//                 message:
+//                     err.message || "Ocurrio un error al obtener las reservaciones."
+//             });
+//         });
+// };
 
 //prueba con sql
 exports.listaReservaciones = async (req, res) => {
@@ -239,5 +239,40 @@ exports.listaReservaciones = async (req, res) => {
     reservaciones = await db.sequelize.query(consulta);
 
     return res.status(200).json(reservaciones[0]);
+
+}
+
+//  5. filtro de reservaciones por 1 CLIENTE, 1 FECHA , 1 RESTURANTE (por separado: 3 filtros, todos ordenados por HORARIO -crec- Y MESA -crec-)
+exports.filterReservaciones = async (req, res) => {
+    const clienteId = req.body.ClienteId;
+
+    if (clienteId) {
+        consulta = 'select r.id, r.fecha, r."horaInicio", r."horaFin", restaurante.id as "RestauranteId", restaurante.nombre as "nombreRestaurante", mesa.id as "MesaId", mesa.nombre as "nombreMesa", mesa.capacidad, c.id as "ClienteId", c.nombre as "nombreCliente" \n' +
+            'from public."Reservacions" r join public."Restaurantes" restaurante on r."RestauranteId" = restaurante.id\n' +
+            'join public."Mesas" mesa on mesa.id = r."MesaId"\n' +
+            'join public."Clientes" c on c.id = r."ClienteId"\n' +
+            'where r."fecha" = (:fecha_dato) AND c."id" = (:cliente_dato) AND restaurante."id" = (:restaurante_dato);'
+
+
+        reservaciones = await db.sequelize.query(consulta  , {
+            replacements: {fecha_dato: req.body.fecha, cliente_dato: req.body.ClienteId, restaurante_dato:req.body.RestauranteId},
+            type: db.sequelize.QueryTypes.SELECT
+        });
+
+    }else{
+        consulta = 'select r.id, r.fecha, r."horaInicio", r."horaFin", restaurante.id as "RestauranteId", restaurante.nombre as "nombreRestaurante", mesa.id as "MesaId", mesa.nombre as "nombreMesa", mesa.capacidad, c.id as "ClienteId", c.nombre as "nombreCliente" \n' +
+            'from public."Reservacions" r join public."Restaurantes" restaurante on r."RestauranteId" = restaurante.id\n' +
+            'join public."Mesas" mesa on mesa.id = r."MesaId"\n' +
+            'join public."Clientes" c on c.id = r."ClienteId"\n' +
+            'where r."fecha" = (:fecha_dato) AND restaurante."id" = (:restaurante_dato);'
+
+        reservaciones = await db.sequelize.query(consulta  , {
+            replacements: {fecha_dato: req.body.fecha, restaurante_dato:req.body.RestauranteId},
+            type: db.sequelize.QueryTypes.SELECT
+        });
+
+    }
+    return res.status(200).json(reservaciones);
+
 
 }
