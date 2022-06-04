@@ -8,7 +8,8 @@ module.exports = app => {
     router.post("/filter", reservacion.filterReservaciones);
     router.post("/libres", reservacion.mesasLibres);
     router.get("/:id", reservacion.findOne);
-    router.get("/", reservacion.findAll);
-    router.post("/prueba", reservacion.listaReservaciones);
+    //router.get("/", reservacion.findAll);
+    router.post("/lista", reservacion.listaReservaciones);
+
     app.use('/api/reservacion', router);
 };

@@ -76,7 +76,6 @@ PUT http://localhost:9090/api/mesa/1
 DELETE http://localhost:9090/api/mesa/1
 
 -----------reservacion---------------
-GET http://localhost:9090/api/reservacion
 
 GET http://localhost:9090/api/reservacion/1
 
@@ -129,4 +128,4 @@ POST http://localhost:9090/api/reservacion/libres
 
 
 NUEVO ENDPOINT - SE TRAE TODAS LAS RESERVAS (SE HIZO JOIN CON CLIENTES, RESTAURANTES Y MESAS)
-POST http://localhost:9090/api/reservacion/prueba
+POST http://localhost:9090/api/reservacion/lista
