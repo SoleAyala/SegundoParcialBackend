@@ -1,3 +1,116 @@
+--------------cabecera consumo ACTUALIZAR EL TOTAL-----------------
+
+GET  http://localhost:9090/api/cabeceraConsumo/ActualizarTotal/1
+
+--------------cabecera consumo-----------------
+
+GET  http://localhost:9090/api/cabeceraConsumo
+
+POST  http://localhost:9090/api/cabeceraConsumo
+{
+    "MesaId":1,
+    "ClienteId":1,
+    "estado":"abierto",
+    "total":18000,
+    "fechaHoraCreacion":"2022-05-11 16:00:00"
+}
+
+
+PUT  http://localhost:9090/api/cabeceraConsumo/1
+{
+    "MesaId":1,
+    "ClienteId":1,
+    "estado":"cerrado",
+    "total":18000,
+    "fechaHoraCreacion":"2022-05-11 16:00:00",
+    "fechaHoraCierre:":"2022-05-11 18:00:00"
+
+}
+
+DELETE http://localhost:9090/api/cabeceraConsumo/1
+
+GET  http://localhost:9090/api/cabeceraConsumo/1
+
+
+-- **********************************************   NO FUNCIONAN
+
+GET  http://localhost:9090/api/cabeceraConsumo/ActualizarTotal/1
+
+GET  http://localhost:9090/api/cabeceraConsumo/cerrar/1
+
+
+--------------detalle consumo-----------------
+
+
+GET  http://localhost:9090/api/detalleConsumo
+
+POST  http://localhost:9090/api/detalleConsumo
+{
+    "CabeceraConsumoId":1,
+    "ProductoId":1,
+    "cantidad":1,
+}
+
+PUT  http://localhost:9090/api/detalleConsumo/1
+{
+    "CabeceraConsumoId":1,
+    "ProductoId":1,
+    "cantidad":2,
+
+}
+
+DELETE http://localhost:9090/api/detalleConsumo/1
+
+GET  http://localhost:9090/api/detalleConsumo/1
+
+
+--------------categorias productos-----------------
+
+GET  http://localhost:9090/api/categoriaProducto
+
+POST  http://localhost:9090/api/categoriaProducto
+{
+    "nombre":"Bebidas gaseosas"
+}
+
+PUT  http://localhost:9090/api/categoriaProducto/1
+{
+    "nombre":"Bebidas gasificadas"
+}
+
+DELETE http://localhost:9090/api/categoriaProducto/1
+
+GET  http://localhost:9090/api/categoriaProducto/1
+
+GET  http://localhost:9090/api/categoriaProducto?nombre=bebidas
+
+
+--------------productos-----------------
+
+GET  http://localhost:9090/api/producto
+
+POST  http://localhost:9090/api/producto
+{
+    "nombre":"Coca cola 2 litros descartable",
+    "precio":15000,
+    "CategoriaProductoId":1
+}
+
+PUT  http://localhost:9090/api/producto/1
+{
+    "nombre":"Sprite 2 litros descartable",
+    "precio":18000,
+    "CategoriaProductoId":1
+
+}
+
+DELETE http://localhost:9090/api/producto/1
+
+GET  http://localhost:9090/api/producto/1
+
+GET  http://localhost:9090/api/producto?nombre=descartable
+
+
 --------------clientes-----------------
 
 GET  http://localhost:9090/api/cliente
