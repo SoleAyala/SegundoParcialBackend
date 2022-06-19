@@ -66,7 +66,7 @@ db.Producto.hasMany(db.DetalleConsumo, {
     },
     onDelete: 'CASCADE'
 });
-db.Producto.belongsTo(db.Producto);
+db.DetalleConsumo.belongsTo(db.Producto);
 
 
 // CABECERA CONSUMO Y DETALLE CONSUMO

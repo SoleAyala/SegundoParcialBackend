@@ -7,7 +7,7 @@ module.exports = app => {
     router.delete("/:id", cabeceraConsumo.delete);
     router.get("/", cabeceraConsumo.findAll);
     router.get("/:id", cabeceraConsumo.findOne);
-   // router.get("/ActualizarTotal/:id", cabeceraConsumo.ActualizarTotal);
-   // router.get("/cerrar/:id", cabeceraConsumo.cerrar);
+    router.get("/ActualizarTotal/:id", cabeceraConsumo.ActualizarTotal);
+    router.put("/cerrar/:id", cabeceraConsumo.cerrar);
     app.use('/api/cabeceraConsumo', router);
 };

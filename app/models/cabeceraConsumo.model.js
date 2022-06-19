@@ -9,13 +9,22 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false
         },
-        fechaHoraCreacion: {
-            type: Sequelize.DATE,
+        total: {
+            type: Sequelize.BIGINT,
+        },
+        fechaCreacion: {
+            type: Sequelize.DATEONLY,
             allowNull: false
         },
-        fechaHoraCierre: {
-            type: Sequelize.DATE,
-            allowNull: true
+        fechaCierre: {
+            type: Sequelize.DATEONLY,
+        },
+        horaCreacion: {
+            type: Sequelize.BIGINT,
+            allowNull: false
+        },
+        horaCierre: {
+            type: Sequelize.BIGINT
         }
     });
     return CabeceraConsumo;

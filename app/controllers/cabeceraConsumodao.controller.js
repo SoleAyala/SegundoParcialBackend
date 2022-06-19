@@ -11,7 +11,10 @@ exports.create = (req, res) => {
         ClienteId: req.body.ClienteId,
         estado: req.body.estado,
         total: req.body.total,
-        fechaHoraCreacion: req.body.fechaHoraCreacion,
+        fechaCreacion: req.body.fechaCreacion,
+        fechaCierre: req.body.fechaCierre,
+        horaCreacion: req.body.horaCreacion,
+        horaCierre: req.body.horaCierre
     };
 
     CabeceraConsumo.create(cabeceraConsumo)
@@ -73,8 +76,10 @@ exports.update = (req, res) => {
         ClienteId: req.body.ClienteId,
         estado: req.body.estado,
         total: req.body.total,
-        fechaHoraCreacion: req.body.fechaHoraCreacion,
-        fechaHoraCierre: req.body.fechaHoraCierre
+        fechaCreacion: req.body.fechaCreacion,
+        fechaCierre: req.body.fechaCierre,
+        horaCreacion: req.body.horaCreacion,
+        horaCierre: req.body.horaCierre
     }
     CabeceraConsumo.update(cabeceraConsumo, {
         where: {
@@ -91,56 +96,33 @@ exports.update = (req, res) => {
     });
 }
 
-//************************************************************************** NO FUNCIONA
 
 //poner estado CERRADO a una CABECERA CONSUMO
 exports.cerrar = async (req, res) => {
     const id = req.params.id;
+    const horaCierre= req.body.horaCierre;
+    const fechaCierre= req.body.fechaCierre;
+    const cerrado= "cerrado";
 
-    consulta = 'update CabeceraConsumos where CabeceraConsumos."id"=(id_c) CabeceraConsumos."total"= \n' +
-        '(select SUM(p."precio"*d."cantidad") as "nuevo_total" \n' +
-        'from public."CabeceraConsumos" c join public."DetalleConsumos" d on c."id" = d."CabeceraConsumoId"\n' +
-        'join public."Productos" p on p."id" = d."ProductoId"\n' +
-        'where c."id" = (:id_c));'
+    consulta = 'update public."CabeceraConsumos" \n' +
+        'set "estado"=(:estado_c), "fechaCierre"=(:fechaCierre_c), "horaCierre"=(:horaCierre_c)  \n' +
+        'where public."CabeceraConsumos"."id"=(:id_c);'
 
     total_cabecera = await db.sequelize.query(consulta, {
         replacements: {
             id_c: id,
+            horaCierre_c: horaCierre,
+            fechaCierre_c: fechaCierre,
+            estado_c: cerrado
         },
         type: db.sequelize.QueryTypes.SELECT
     }).then(data => {
-        console.log("Actualizado el TOTAL de la CABECERA CONSUMO exitosamente con id: " + id);
-        res.send(data);
+        console.log("CABECERA CONSUMO -CERRADO- exitosamente con id: " + id);
+        res.send("CABECERA CONSUMO -CERRADO- exitosamente con id: " + id);
     }).catch(err => {
-        console.log("Error al actualizar el TOTAL de la CABECERA CONSUMO con id: " + id + ". Error: " + err.message);
+        console.log("Error al -cerrar- la CABECERA CONSUMO con id: " + id + ". Error: " + err.message);
         res.status(500).send({
-            message: "Error al actualizar el TOTAL de la CABECERA CONSUMO con id: " + id
-        })
-    });
-
-
-    //*******************************************
-
-
-    const cabeceraConsumo = {
-        MesaId: req.body.MesaId,
-        ClienteId: req.body.ClienteId,
-        estado: req.body.estado,
-        total: req.body.total,
-        fechaHoraCreacion: req.body.fechaHoraCreacion,
-        fechaHoraCierre: req.body.fechaHoraCierre
-    }
-    CabeceraConsumo.update(cabeceraConsumo, {
-        where: {
-            id: id
-        }
-    }).then(data => {
-        console.log("Actualizado CABECERA CONSUMO exitosamente con id: " + id);
-        res.send(data);
-    }).catch(err => {
-        console.log("Error al actualizar la CABECERA CONSUMO con id: " + id + ". Error: " + err.message);
-        res.status(500).send({
-            message: "Error al actualizar la CABECERA CONSUMO con id: " + id
+            message: "Error al -cerrar- la CABECERA CONSUMO con id: " + id
         })
     });
 }
@@ -160,26 +142,25 @@ exports.delete = (req,res) => {
     });
 }
 
-//************************************************************************** NO FUNCIONA
 
 //actualizar TOTAL de una CABECERA CONSUMO, CONSULTANDO SUS DETALLES
 exports.ActualizarTotal = async (req, res) => {
     const id = req.params.id;
 
-    consulta = 'update CabeceraConsumos where CabeceraConsumos."id"=(id_c) CabeceraConsumos."total"= \n' +
-        '(select SUM(p."precio"*d."cantidad") as "nuevo_total" \n' +
+    consulta = 'update public."CabeceraConsumos" \n' +
+        'set "total"=(select SUM(p."precio"*d."cantidad") \n' +
         'from public."CabeceraConsumos" c join public."DetalleConsumos" d on c."id" = d."CabeceraConsumoId"\n' +
-        'join public."Productos" p on p."id" = d."ProductoId"\n' +
-        'where c."id" = (:id_c));'
+        'join public."Productos" p on p."id" = d."ProductoId") \n'+
+        'where public."CabeceraConsumos"."id"=(:id_c); \n'
 
     total_cabecera = await db.sequelize.query(consulta, {
         replacements: {
-            id_c: id,
+            id_c: req.params.id
         },
         type: db.sequelize.QueryTypes.SELECT
     }).then(data => {
         console.log("Actualizado el TOTAL de la CABECERA CONSUMO exitosamente con id: " + id);
-        res.send(data);
+        res.send("Actualizado el TOTAL de la CABECERA CONSUMO exitosamente con id: " + id);
     }).catch(err => {
         console.log("Error al actualizar el TOTAL de la CABECERA CONSUMO con id: " + id + ". Error: " + err.message);
         res.status(500).send({

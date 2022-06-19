@@ -2,7 +2,17 @@
 
 GET  http://localhost:9090/api/cabeceraConsumo/ActualizarTotal/1
 
+--------------cabecera consumo CERRAR CONSUMO-----------------
+
+PUT  http://localhost:9090/api/cabeceraConsumo/cerrar/1
+{
+   "fechaCierre":"2022-05-22",
+   "horaCierre":22
+}
+
+
 --------------cabecera consumo-----------------
+
 
 GET  http://localhost:9090/api/cabeceraConsumo
 
@@ -12,31 +22,26 @@ POST  http://localhost:9090/api/cabeceraConsumo
     "ClienteId":1,
     "estado":"abierto",
     "total":18000,
-    "fechaHoraCreacion":"2022-05-11 16:00:00"
+    "fechaCreacion":"2022-05-11",
+    "horaCreacion":13
 }
 
 
 PUT  http://localhost:9090/api/cabeceraConsumo/1
 {
-    "MesaId":1,
-    "ClienteId":1,
-    "estado":"cerrado",
-    "total":18000,
-    "fechaHoraCreacion":"2022-05-11 16:00:00",
-    "fechaHoraCierre:":"2022-05-11 18:00:00"
-
+   "MesaId":1,
+   "ClienteId":1,
+   "estado":"abierto",
+   "total":18030,
+   "fechaCreacion":"2022-05-11",
+   "horaCreacion":14,
+   "fechaCierre":"2022-05-11",
+   "horaCierre":17
 }
 
 DELETE http://localhost:9090/api/cabeceraConsumo/1
 
 GET  http://localhost:9090/api/cabeceraConsumo/1
-
-
--- **********************************************   NO FUNCIONAN
-
-GET  http://localhost:9090/api/cabeceraConsumo/ActualizarTotal/1
-
-GET  http://localhost:9090/api/cabeceraConsumo/cerrar/1
 
 
 --------------detalle consumo-----------------
@@ -48,15 +53,14 @@ POST  http://localhost:9090/api/detalleConsumo
 {
     "CabeceraConsumoId":1,
     "ProductoId":1,
-    "cantidad":1,
+    "cantidad":1
 }
 
 PUT  http://localhost:9090/api/detalleConsumo/1
 {
     "CabeceraConsumoId":1,
     "ProductoId":1,
-    "cantidad":2,
-
+    "cantidad":2
 }
 
 DELETE http://localhost:9090/api/detalleConsumo/1
