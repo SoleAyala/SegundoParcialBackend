@@ -276,3 +276,50 @@ exports.filterReservaciones = async (req, res) => {
 
 
 }
+
+//VERIFICA SI LA MESA ESTA LIBRE O NO, ATENDIENDO LAS RESERVACIONES HECHAS Y LOS CONSUMOS DE LAS MESAS
+exports.mesaLIBRE = async (req, res) => {
+    const id = req.params.id; //id de la mesa
+
+    const horaInicio_ = req.body.horaInicio;
+    const horaFin_ = req.body.horaFin;
+    const restauranteId_ = req.body.RestauranteId;
+    const fecha_ = req.body.fecha;
+
+
+    //1. vemos si la mesa elegida esta en la lista de mesas reservadas
+    var disponible = "NO LIBRE";
+    consulta = 'select * \n' +
+        'from public."Reservacions" c \n' +
+        'where c."MesaId" = (:id) and c."fecha" = (:fecha_) and c."horaInicio" < (:horafin_) and c."horaFin" > (:horainicio_) and c."horaInicio" >= (:horainicio_) and c."horaFin" <= (:horafin_) ;'
+    let resultado1 = await db.sequelize.query(consulta, {
+        replacements: {
+            id: req.params.id,
+            horainicio_: req.body.horaInicio,
+            horafin_: req.body.horaFin,
+            fecha_: req.body.fecha
+        },
+        type: db.sequelize.QueryTypes.SELECT
+    });
+
+
+    //2. vemos si hay una cabecera con estado ABIERTO con esa mesa
+    consulta2 = 'select * \n' +
+        'from public."CabeceraConsumos" c \n' +
+        'where c."MesaId" = (:id) and c."estado" = (:estado_abierto);'
+    let resultado2 = await db.sequelize.query(consulta2, {
+        replacements: {
+            id: req.params.id,
+            estado_abierto: "abierto"
+        },
+        type: db.sequelize.QueryTypes.SELECT
+    });
+
+    if (resultado2.toString() === "" && resultado1.toString() === "") {
+        disponible = "LIBRE";
+    }
+
+    //3. respuesta
+    console.log("Mesa " + disponible + " para la fecha: " + fecha_ + " y rango de horario: " + horaInicio_ + " - " + horaFin_ + " y restaurante: " + restauranteId_);
+    res.send(disponible);
+};

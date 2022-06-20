@@ -10,6 +10,6 @@ module.exports = app => {
     router.get("/:id", reservacion.findOne);
     //router.get("/", reservacion.findAll);
     router.post("/lista", reservacion.listaReservaciones);
-
+    router.post("/libreOno/:id", reservacion.mesaLIBRE);
     app.use('/api/reservacion', router);
 };

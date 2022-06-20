@@ -168,3 +168,39 @@ exports.ActualizarTotal = async (req, res) => {
         })
     });
 }
+
+//devuelve todos los detalles del consumo de una cabecera/mesa
+exports.ticket = async (req, res) => {
+    const id = req.params.id; // id de la cabecera
+
+    consulta = 'select distinct c."estado", c."fechaCierre" as "fecha", c."horaCierre" as "hora", r."id" as "RestauranteId", r."nombre" as "nombreRestaurante", mesa.id as "MesaId", mesa.nombre as "nombreMesa", cli.id as "ClienteId", cli.nombre as "nombreCliente", \n' +
+        'c.total as "total consumo" \n' +
+        'from public."CabeceraConsumos" c join public."DetalleConsumos" d on c."id" = d."CabeceraConsumoId" \n' +
+        'join public."Mesas" mesa on mesa."id" = c."MesaId" \n' +
+        'join public."Clientes" cli on cli."id" = c."ClienteId" join public."Restaurantes" r on r."id" = mesa."RestauranteId" \n' +
+        'where c."id" = (:id_c);'
+    let resultado1 = await db.sequelize.query(consulta, {
+        replacements: {
+            id_c: req.params.id
+        },
+        type: db.sequelize.QueryTypes.SELECT
+
+    });
+
+    //PASO 2:
+    consulta2 = 'select p.id as "ProductoID", p.nombre as "Producto", p.precio, d.cantidad  \n' +
+        'from public."CabeceraConsumos" c join public."DetalleConsumos" d on c.id = d."CabeceraConsumoId" \n' +
+        'join public."Productos" p on p.id = d."ProductoId" \n' +
+        'where c.id = (:id_c);'
+    let resultado2 = await db.sequelize.query(consulta2, {
+        replacements: {
+            id_c: req.params.id
+        },
+        type: db.sequelize.QueryTypes.SELECT
+    });
+
+    //PASO 3:
+    var respuesta = resultado1.concat(resultado2);
+    console.log("Ticket EXITOSO de cabecera con id: " + id);
+    return res.status(200).json(respuesta);
+}

@@ -9,5 +9,6 @@ module.exports = app => {
     router.get("/:id", cabeceraConsumo.findOne);
     router.get("/ActualizarTotal/:id", cabeceraConsumo.ActualizarTotal);
     router.put("/cerrar/:id", cabeceraConsumo.cerrar);
+    router.get("/ticket-mesa/:id", cabeceraConsumo.ticket);
     app.use('/api/cabeceraConsumo', router);
 };

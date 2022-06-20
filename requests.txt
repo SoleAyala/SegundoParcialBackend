@@ -1,8 +1,34 @@
+---------------------------consulta MESA LIBRE O NO------------------------
+
+// servicio que devuelve "LIBRE" o "NO LIBRE"
+//parametro es el id de la mesa
+
+POST http://localhost:9090/api/reservacion/libreOno/1
+
+{
+    "fecha": "2022-06-01",
+    "horaInicio":17,
+    "horaFin":18,
+    "RestauranteId":1
+}
+
+
+---------------------------consulta TICKET------------------------
+
+//parametro es el id de la cabeceraConsumo
+
+GET  http://localhost:9090/api/cabeceraConsumo/ticket-mesa/1
+
+
 --------------cabecera consumo ACTUALIZAR EL TOTAL-----------------
+
 
 GET  http://localhost:9090/api/cabeceraConsumo/ActualizarTotal/1
 
+
 --------------cabecera consumo CERRAR CONSUMO-----------------
+
+//pone estado = "cerrado" ... pasa de "abierto" a "cerrado"
 
 PUT  http://localhost:9090/api/cabeceraConsumo/cerrar/1
 {
