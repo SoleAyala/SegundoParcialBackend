@@ -266,13 +266,21 @@ POST http://localhost:9090/api/reservacion/filter
     "ClienteId":1
 }
 
+Mesas ocupadas de 1 restaurante en 1 fecha en 1 rango de horas:
 
+POST http://localhost:9090/api/reservacion/ocupadas
+{
+    "fecha": "2022-06-01",
+    "horaInicio":18,
+    "horaFin":22,
+    "RestauranteId":1
+}
 
 Mesas libres de 1 restaurante en 1 fecha en 1 rango de horas:
 
 POST http://localhost:9090/api/reservacion/libres
 {
-    "fecha": "2022-05-11",
+    "fecha": "2022-06-01",
     "horaInicio":18,
     "horaFin":22,
     "RestauranteId":1

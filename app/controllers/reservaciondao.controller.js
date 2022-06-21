@@ -147,37 +147,145 @@ exports.mesasLibres = (req, res) => {
                 ]
             }
         }
-    }).then(data => {
-        // Vemos que mesas están reservadas, asignando a un array el id de las mesas
+    }).then(async data => {
+        // 1. Vemos que mesas están reservadas, asignando a un array el id de las mesas
         var mesasOcupadas = [];
-        data.map( reserva => {
+        data.map(reserva => {
             mesasOcupadas.push(reserva.MesaId);
         });
 
+        // 2. Vemos que mesas están en consumo abierto, asignando a un array el id de las mesas
+
+        consulta = 'select distinct * \n' +
+            'from public."CabeceraConsumos" c \n' +
+            'join public."Mesas" mesa on mesa."id" = c."MesaId" \n' +
+            'where c."estado" = (:a) and mesa."RestauranteId" = (:res);'
+        let abierto = await db.sequelize.query(consulta, {
+            replacements: {
+                a: "abierto",
+                res: req.body.RestauranteId
+            },
+            type: db.sequelize.QueryTypes.SELECT
+
+        });
+        var mesasabiertas = [];
+        abierto.map(consumo => {
+            mesasabiertas.push(consumo.MesaId);
+        });
+
+
         /* Obtenemos todas las mesas del restaurante */
-        Mesa.findAll({ where: {RestauranteId:{[Op.eq]:restauranteId_}} })
+        Mesa.findAll({where: {RestauranteId: {[Op.eq]: restauranteId_}}})
             .then(totalMesas => {
                 // Una vez tenemos todas las mesas, filtramos las que no estan ocupadas
                 var mesasDisponibles = totalMesas.filter(
                     mesa => !mesasOcupadas.includes(mesa.id)
                 );
-                console.log("Obtenido todas las MESAS libres exitosamente para la fecha: "+fecha_+" y rango de horario: "+horaInicio_+" - "+horaFin_+" y restaurante: "+restauranteId_ );
-                res.send(mesasDisponibles);
+
+                var mesasDisponibles2 = mesasDisponibles.filter(
+                    mesa2 => !mesasabiertas.includes(mesa2.id)
+                );
+                console.log("Obtenido todas las MESAS libres exitosamente para la fecha: " + fecha_ + " y rango de horario: " + horaInicio_ + " - " + horaFin_ + " y restaurante: " + restauranteId_);
+                res.send(mesasDisponibles2);
             })
             .catch(err => {
-                console.log("Error al obtener todas las mesas del restaurante: "+restauranteId_+". Error: "+ err.message);
+                console.log("Error al obtener todas las mesas del restaurante: " + restauranteId_ + ". Error: " + err.message);
                 res.status(500).send({
                     message:
                         err.message || "Ocurrio un error al realizar la operacion."
                 });
             });
-        }).catch(err => {
+    }).catch(err => {
         console.log("Error al obtener todas las mesas libres para la fecha: "+fecha_+" y rango de horario: "+horaInicio_+" - "+horaFin_+" y restaurante: "+restauranteId_ +". Error: "+ err.message);
         res.status(500).send({
                 message:
                     err.message || "Ocurrio un error al obtener las mesas libres"
             });
         });
+};
+
+exports.mesasOcupadas = (req, res) => {
+
+    const horaInicio_= req.body.horaInicio;
+    const horaFin_= req.body.horaFin;
+    const restauranteId_= req.body.RestauranteId;
+    const fecha_= req.body.fecha;
+
+    Reservacion.findAll({
+        where: {
+            [Op.and]:
+                {
+                    RestauranteId:restauranteId_,
+                    fecha:{[Op.eq]:fecha_},
+                    [Op.or]:[
+                        {
+                            horaInicio:{[Op.lt]:horaFin_},
+                            horaFin:{[Op.gt]:horaInicio_}
+                        }
+                        , {
+                            horaInicio:{[Op.gte]:horaInicio_},
+                            horaFin:{[Op.lte]:horaFin_}
+                        }
+                    ]
+                }
+        }
+    }).then(async data => {
+        // 1. Vemos que mesas están reservadas, asignando a un array el id de las mesas
+        var mesasOcupadas = [];
+        data.map(reserva => {
+            mesasOcupadas.push(reserva.MesaId);
+        });
+
+        // 2. Vemos que mesas están en consumo abierto, asignando a un array el id de las mesas
+
+        consulta = 'select distinct * \n' +
+            'from public."CabeceraConsumos" c \n' +
+            'join public."Mesas" mesa on mesa."id" = c."MesaId" \n' +
+            'where c."estado" = (:a) and mesa."RestauranteId" =(:res);'
+        let abierto = await db.sequelize.query(consulta, {
+            replacements: {
+                a: "abierto",
+                res: req.body.RestauranteId
+            },
+            type: db.sequelize.QueryTypes.SELECT
+
+        });
+        var mesasabiertas = [];
+        abierto.map(consumo => {
+            mesasabiertas.push(consumo.MesaId);
+        });
+
+
+        /* Obtenemos todas las mesas del restaurante */
+        Mesa.findAll({where: {RestauranteId: {[Op.eq]: restauranteId_}}})
+            .then(totalMesas => {
+                // Una vez tenemos todas las mesas, filtramos las que no estan ocupadas
+                var mesasDisponibles = totalMesas.filter(
+                    mesa => mesasOcupadas.includes(mesa.id)
+                );
+
+                var mesasDisponibles2 = totalMesas.filter(
+                    mesa2 => mesasabiertas.includes(mesa2.id)
+                );
+
+               var rta = mesasDisponibles.concat(mesasDisponibles2)
+                console.log("Obtenido todas las MESAS ocupadas/reservadas exitosamente para la fecha: " + fecha_ + " y rango de horario: " + horaInicio_ + " - " + horaFin_ + " y restaurante: " + restauranteId_);
+                res.send(rta);
+            })
+            .catch(err => {
+                console.log("Error al obtener todas las mesas del restaurante: " + restauranteId_ + ". Error: " + err.message);
+                res.status(500).send({
+                    message:
+                        err.message || "Ocurrio un error al realizar la operacion."
+                });
+            });
+    }).catch(err => {
+        console.log("Error al obtener todas las mesas ocupadas/reservadas para la fecha: "+fecha_+" y rango de horario: "+horaInicio_+" - "+horaFin_+" y restaurante: "+restauranteId_ +". Error: "+ err.message);
+        res.status(500).send({
+            message:
+                err.message || "Ocurrio un error al obtener las mesas ocupadas/reservadas"
+        });
+    });
 };
 
 
