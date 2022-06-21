@@ -1,6 +1,13 @@
+
+MESA LIBRES O NO: (2 LLAMADAS SI O SI) SI "NO LIBRE" --LLAMAR A LA SERVICIO TICKET--
+TICKET: recibe numero de mesa... (2 LLAMADAS SI O SI)
+ACTUALIZAR TOTAL: recibe numero de mesa... ACTUALIZAR ANTES DE GENERAR TICKET Y LUEGO DE ALGUNA MODFICACION
+CERRAR: recibe numero de mesa. Que se le envie la fecha y hora actual del cierre
+
+
 ---------------------------consulta MESA LIBRE O NO------------------------
 
-// servicio que devuelve "LIBRE" o "NO LIBRE"
+//servicio que devuelve "LIBRE" o "NO LIBRE"
 //parametro es el id de la mesa
 
 POST http://localhost:9090/api/reservacion/libreOno/1
@@ -15,13 +22,14 @@ POST http://localhost:9090/api/reservacion/libreOno/1
 
 ---------------------------consulta TICKET------------------------
 
-//parametro es el id de la cabeceraConsumo
+//parametro es el id de la mesa
 
 GET  http://localhost:9090/api/cabeceraConsumo/ticket-mesa/1
 
 
 --------------cabecera consumo ACTUALIZAR EL TOTAL-----------------
 
+//parametro es el id de la mesa
 
 GET  http://localhost:9090/api/cabeceraConsumo/ActualizarTotal/1
 
@@ -29,6 +37,8 @@ GET  http://localhost:9090/api/cabeceraConsumo/ActualizarTotal/1
 --------------cabecera consumo CERRAR CONSUMO-----------------
 
 //pone estado = "cerrado" ... pasa de "abierto" a "cerrado"
+
+//parametro es el id de la mesa
 
 PUT  http://localhost:9090/api/cabeceraConsumo/cerrar/1
 {
