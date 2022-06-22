@@ -100,3 +100,24 @@ exports.delete = (req,res) => {
     });
 }
 
+
+//obtiene los detalles de consumo de una cabecera
+exports.getDetallesDeConsumoByIdCabecera = async (req, res) => {
+    const CabeceraConsumoId = req.params.id;
+
+    consulta = 'select d."id",  d."ProductoId",  p."nombre", p."precio", d."cantidad", (p."precio"* d."cantidad") as total, d."CabeceraConsumoId" \n' +
+                'from public."DetalleConsumos" d join public."Productos" p on d."ProductoId" = p."id" \n' +
+                'where d."CabeceraConsumoId" = :CabeceraConsumoId;'
+
+
+
+    listaDetallesConsumo = await db.sequelize.query(consulta, {
+        replacements: { CabeceraConsumoId: CabeceraConsumoId },
+        type: db.sequelize.QueryTypes.SELECT
+    });
+
+
+    return res.status(200).json(listaDetallesConsumo);
+
+}
+

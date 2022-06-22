@@ -7,9 +7,11 @@ module.exports = app => {
     router.delete("/:id", reservacion.delete);
     router.post("/filter", reservacion.filterReservaciones);
     router.post("/libres", reservacion.mesasLibres);
-    router.get("/:id", reservacion.findOne);
+    //router.get("/:id", reservacion.findOne);
     //router.get("/", reservacion.findAll);
     router.post("/lista", reservacion.listaReservaciones);
-    router.post("/libreOno/:id", reservacion.mesaLIBRE);
+    //router.post("/libreOno/:id", reservacion.mesaLIBRE);
+    router.get("/:id", reservacion.getReservacionByID);
+
     app.use('/api/reservacion', router);
 };

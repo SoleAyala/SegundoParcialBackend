@@ -180,54 +180,6 @@ exports.mesasLibres = (req, res) => {
         });
 };
 
-
-//  5. filtro de reservaciones por 1 CLIENTE, 1 FECHA , 1 RESTURANTE (por separado: 3 filtros, todos ordenados por HORARIO -crec- Y MESA -crec-)
-
-// exports.filterReservaciones = (req, res) => {
-//
-//     const restaurante = req.body.RestauranteId;
-//     const clienteId = req.body.ClienteId;
-//     const fechaString = req.body.fecha;
-//     var condition = null;
-//     /*definicion de la condicion */
-//     if (clienteId) {
-//         condition = {
-//             RestauranteId: restaurante,
-//             fecha: {
-//                 [Op.eq]: fechaString
-//             },
-//             ClienteId: clienteId
-//         }
-//     }else{
-//         condition = {
-//             RestauranteId: restaurante,
-//             fecha: {
-//                 [Op.eq]: fechaString
-//             }
-//         }
-//     }
-//
-//     /*extraccion*/
-//     Reservacion.findAll({
-//         where: condition,
-//         order: [
-//             ['horaInicio', 'ASC'],
-//             ['horaFin', 'ASC'],
-//             ['MesaId', 'ASC']
-//         ]
-//     })
-//         .then(data => {
-//             console.log("Obtenido las RESERVACIONES exitosamente del cliente: "+clienteId+" en fecha: "+fechaString+" en el restaurante: "+restaurante);
-//             res.send(data);
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message:
-//                     err.message || "Ocurrio un error al obtener las reservaciones."
-//             });
-//         });
-// };
-
 //prueba con sql
 exports.listaReservaciones = async (req, res) => {
 
@@ -277,8 +229,32 @@ exports.filterReservaciones = async (req, res) => {
 
 }
 
+exports.getReservacionByID = async (req, res) => {
+
+    const id = req.params.id;
+
+    consulta = 'select  res.id as "RestauranteId", res.nombre as "nombreRestaurante", \n' +
+        '\t\tm.id as "MesaId", m.nombre as "nombreMesa", m.capacidad,\n' +
+        '\t\tc.id as "ClienteId", concat(c.nombre, \' \' , c.apellido) as "nombreCliente",\n' +
+        '\t\tr.id, r.fecha, r."horaInicio", r."horaFin"  \n' +
+        'from public."Reservacions" r\n' +
+        'join public."Mesas" m on r."MesaId" = m.id\n' +
+        'join public."Restaurantes" res on r."RestauranteId" = res.id\n' +
+        'join public."Clientes" c on r."ClienteId" = c.id\n' +
+        'where r."id" = :id;';
+
+
+    reservacion = await db.sequelize.query(consulta,{
+        replacements: { id: id },
+        type: db.sequelize.QueryTypes.SELECT
+    });
+
+    return res.status(200).json(reservacion[0]);
+
+}
+
 //VERIFICA SI LA MESA ESTA LIBRE O NO, ATENDIENDO LAS RESERVACIONES HECHAS Y LOS CONSUMOS DE LAS MESAS
-exports.mesaLIBRE = async (req, res) => {
+/*exports.mesaLIBRE = async (req, res) => {
     const id = req.params.id; //id de la mesa
 
     const horaInicio_ = req.body.horaInicio;
@@ -322,4 +298,4 @@ exports.mesaLIBRE = async (req, res) => {
     //3. respuesta
     console.log("Mesa " + disponible + " para la fecha: " + fecha_ + " y rango de horario: " + horaInicio_ + " - " + horaFin_ + " y restaurante: " + restauranteId_);
     res.send(disponible);
-};
+};*/

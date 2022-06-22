@@ -118,3 +118,32 @@ exports.delete = (req,res) => {
     });
 }
 
+
+exports.getListaProductos = async (req, res) => {
+
+    consulta = 'select p.id, p.nombre, p.precio, p."CategoriaProductoId", c.nombre as "categoria" \n'+
+        ' from public."Productos" p join public."CategoriaProductos" c on p."CategoriaProductoId" = c.id;'
+
+    listaProductos = await db.sequelize.query(consulta);
+    return res.status(200).json(listaProductos[0]);
+
+}
+
+
+
+exports.getProductosByIdCategoria = async (req, res) => {
+    const CategoriaId = req.params.id;
+
+    consulta = 'select p.id, p.nombre, p.precio \n'+
+               ' from public."Productos" p join public."CategoriaProductos" c on p."CategoriaProductoId" = c.id where c."id" = :CategoriaId;'
+
+    listaProductos = await db.sequelize.query(consulta, {
+        replacements: { CategoriaId: CategoriaId },
+        type: db.sequelize.QueryTypes.SELECT
+    });
+
+
+    return res.status(200).json(listaProductos);
+
+}
+

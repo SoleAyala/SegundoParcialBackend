@@ -37,24 +37,15 @@ db.DetalleConsumo = require("./detalleConsumo.model")(sequelize, Sequelize);
 
 // CABECERA CONSUMO, MESA Y CLIENTE
 
-db.Mesa.hasMany(db.CabeceraConsumo, {
+db.Reservacion.hasOne(db.CabeceraConsumo, {
     foreignKey: {
-        name:'MesaId',
+        name:'ReservacionId',
         allowNull: false
     },
     onDelete: 'CASCADE'
 });
-db.CabeceraConsumo.belongsTo(db.Mesa);
+db.CabeceraConsumo.belongsTo(db.Reservacion);
 
-
-db.Cliente.hasMany(db.CabeceraConsumo, {
-    foreignKey: {
-        name:'ClienteId',
-        allowNull: false
-    },
-    onDelete: 'CASCADE'
-});
-db.CabeceraConsumo.belongsTo(db.Cliente);
 
 
 // DETALLE CONSUMO Y PRODUCTO
