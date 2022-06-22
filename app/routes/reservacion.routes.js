@@ -7,6 +7,8 @@ module.exports = app => {
     router.delete("/:id", reservacion.delete);
     router.post("/filter", reservacion.filterReservaciones);
     router.post("/libres", reservacion.mesasLibres);
+    router.post("/ocupadasPrueba", reservacion.mesasOcupadasPrueba);
+
     //router.get("/:id", reservacion.findOne);
     //router.get("/", reservacion.findAll);
     router.post("/lista", reservacion.listaReservaciones);

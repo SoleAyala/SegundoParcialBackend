@@ -254,7 +254,7 @@ exports.getReservacionByID = async (req, res) => {
 }
 
 //VERIFICA SI LA MESA ESTA LIBRE O NO, ATENDIENDO LAS RESERVACIONES HECHAS Y LOS CONSUMOS DE LAS MESAS
-/*exports.mesaLIBRE = async (req, res) => {
+exports.mesaLIBRE = async (req, res) => {
     const id = req.params.id; //id de la mesa
 
     const horaInicio_ = req.body.horaInicio;
@@ -298,4 +298,31 @@ exports.getReservacionByID = async (req, res) => {
     //3. respuesta
     console.log("Mesa " + disponible + " para la fecha: " + fecha_ + " y rango de horario: " + horaInicio_ + " - " + horaFin_ + " y restaurante: " + restauranteId_);
     res.send(disponible);
-};*/
+};
+
+//PRUEBA
+exports.mesasOcupadasPrueba = async (req, res) => {
+
+    const ini = req.body.horaInicio;
+    const fin = req.body.horaFin;
+    const restauranteId = req.body.RestauranteId;
+    const fecha = req.body.fecha;
+
+
+    consulta = 'select m.id, m.nombre, m.capacidad, m.planta, m.x, m.y, m."RestauranteId", r.id as "ReservacionId" \n' +
+        'from public."Mesas" m join public."Reservacions" r on r."MesaId" = m.id\n' +
+        'where r.fecha = :fecha and r."horaInicio" = :ini and r."horaFin"= :fin and r."RestauranteId" = :restauranteId;\n'
+    let mesasOcupadas = await db.sequelize.query(consulta, {
+        replacements: {
+            ini: ini,
+            fin: fin,
+            fecha: fecha,
+            restauranteId: restauranteId
+        },
+        type: db.sequelize.QueryTypes.SELECT
+    });
+
+    return res.status(200).json(mesasOcupadas);
+};
+
+
